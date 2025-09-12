@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Wings-cafe-inventory-app/static/css/main.fbd48d70.css",
+    "main.js": "/Wings-cafe-inventory-app/static/js/main.34c91088.js",
+    "index.html": "/Wings-cafe-inventory-app/index.html",
+    "main.fbd48d70.css.map": "/Wings-cafe-inventory-app/static/css/main.fbd48d70.css.map",
+    "main.34c91088.js.map": "/Wings-cafe-inventory-app/static/js/main.34c91088.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fbd48d70.css",
+    "static/js/main.34c91088.js"
+  ]
+}
