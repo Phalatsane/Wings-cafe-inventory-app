@@ -1,0 +1,113 @@
+{
+  "products": [
+    {
+      "name": "Goslos",
+      "description": "Simba",
+      "category": "Snacks",
+      "price": 2,
+      "quantity": 101,
+      "image": "goslos.png",
+      "id": "1"
+    },
+    {
+      "name": "chocolate cake ",
+      "description": "sweet chocolate",
+      "category": "dessert",
+      "price": 15,
+      "quantity": 85,
+      "image": "chocolate-cake.jpg",
+      "id": "3"
+    },
+    {
+      "name": "onion rings",
+      "description": "fried onions",
+      "category": "food",
+      "price": 25,
+      "quantity": 100,
+      "image": "onion-rings.jpeg",
+      "id": "4"
+    },
+    {
+      "name": "bbq wings",
+      "description": "sweet smoky wings",
+      "category": "food",
+      "price": 30,
+      "quantity": 100,
+      "image": "bbq-wings.jpg",
+      "id": "5"
+    },
+    {
+      "name": "buffalo wings",
+      "description": "spicy fried wings",
+      "category": "food",
+      "price": 35,
+      "quantity": 118,
+      "image": "buffalo-wings.jpg",
+      "id": "6"
+    },
+    {
+      "name": "coca-cola can",
+      "description": "classic soda",
+      "category": "bevereges",
+      "price": 20,
+      "quantity": 50,
+      "image": "coca-cola-can.webp",
+      "id": "7"
+    },
+    {
+      "name": "orange juice",
+      "description": "fresh juice ",
+      "category": "bevereges",
+      "price": 10,
+      "quantity": 6,
+      "image": "orange-juice.jpeg",
+      "id": "8"
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1757624885290,
+      "productId": "1",
+      "productName": "Goslos",
+      "quantity": 3,
+      "date": "2025-09-11T21:08:05.290Z"
+    },
+    {
+      "id": 1757626380412,
+      "productId": "3",
+      "productName": "chocolate cake ",
+      "quantity": 5,
+      "date": "2025-09-11T21:33:00.412Z"
+    },
+    {
+      "id": 1757627952509,
+      "productId": "8",
+      "productName": "orange juice",
+      "quantity": 2,
+      "date": "2025-09-11T21:59:12.509Z"
+    },
+    {
+      "id": 1757670480050,
+      "productId": "6",
+      "productName": "buffalo wings",
+      "quantity": 2,
+      "date": "2025-09-12T09:48:00.050Z"
+    }
+  ],
+  "stockTransactions": [
+    {
+      "id": 1757624867891,
+      "productId": "1",
+      "productName": "Goslos",
+      "quantity": 4,
+      "date": "2025-09-11T21:07:47.891Z"
+    },
+    {
+      "id": 1757626404059,
+      "productId": "3",
+      "productName": "chocolate cake ",
+      "quantity": 10,
+      "date": "2025-09-11T21:33:24.059Z"
+    }
+  ]
+}
