@@ -15,18 +15,10 @@ function App() {
 
   const fetchData = async () => {
     try {
-      // Fetch products and transactions separately
-      const [productsRes, transactionsRes] = await Promise.all([
-        axios.get(`${backendURL}/products`),
-        axios.get(`${backendURL}/transactions`)
-      ]);
-
-      setData({
-        products: productsRes.data,
-        transactions: transactionsRes.data
-      });
+      const res = await axios.get(`${backendURL}/api/data`);
+      setData(res.data);
     } catch (e) {
-      console.error('Error fetching data for dashboard:', e);
+      console.error('Error fetching data from backend:', e);
     }
   };
 
