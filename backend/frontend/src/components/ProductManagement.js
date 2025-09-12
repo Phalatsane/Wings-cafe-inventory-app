@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-// Updated backend URL to deployed Render backend
-const backendURL = "https://wings-cafe-inventory-app-46.onrender.com";
+const backendURL = "http://localhost:5000";
 
 function ProductManagement() {
   const [products, setProducts] = useState([]);

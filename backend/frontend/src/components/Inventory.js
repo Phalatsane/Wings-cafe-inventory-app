@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-// Updated backend URL to deployed Render backend
-const backendURL = "https://wings-cafe-inventory-app-46.onrender.com";
+const backendURL = "http://localhost:5000";
 
-function Sales({ refresh }) {
+function Inventory({ refresh }) {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [quantityToSell, setQuantityToSell] = useState("");
-  const [salesLog, setSalesLog] = useState([]);
+  const [stockToAdd, setStockToAdd] = useState("");
+  const [stockLog, setStockLog] = useState([]);
 
   useEffect(() => {
     fetchProducts();
-    fetchSalesLog();
+    fetchStockLog();
   }, []);
 
   const fetchProducts = async () => {
@@ -19,29 +18,24 @@ function Sales({ refresh }) {
     setProducts(await res.json());
   };
 
-  const fetchSalesLog = async () => {
-    const res = await fetch(`${backendURL}/sales`);
-    setSalesLog(await res.json());
+  const fetchStockLog = async () => {
+    const res = await fetch(`${backendURL}/stock-transactions`);
+    setStockLog(await res.json());
   };
 
-  const handleRecordSale = async () => {
-    if (!selectedProduct || !quantityToSell || Number(quantityToSell) <= 0) return;
+  const handleAddStock = async () => {
+    if (!selectedProduct || !stockToAdd || Number(stockToAdd) <= 0) return;
 
-    const res = await fetch(`${backendURL}/sales`, {
-      method: "POST",
+    await fetch(`${backendURL}/products/${selectedProduct}/add-stock`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId: selectedProduct, quantity: Number(quantityToSell) })
+      body: JSON.stringify({ quantity: Number(stockToAdd) })
     });
 
-    const data = await res.json();
-    if (res.ok) {
-      setQuantityToSell("");
-      fetchProducts();
-      fetchSalesLog();
-      if (refresh) refresh();
-    } else {
-      alert(data.error || "Error recording sale");
-    }
+    setStockToAdd("");
+    fetchProducts();
+    fetchStockLog();
+    if (refresh) refresh();
   };
 
   // Inline styles for a modern, clean look
@@ -122,9 +116,9 @@ function Sales({ refresh }) {
 
   return (
     <div style={containerStyle}>
-      <h2 style={headingStyle}>Record Sales</h2>
+      <h2 style={headingStyle}>Inventory Management</h2>
 
-      <form style={formStyle} onSubmit={e => { e.preventDefault(); handleRecordSale(); }}>
+      <form style={formStyle} onSubmit={e => { e.preventDefault(); handleAddStock(); }}>
         <select value={selectedProduct} onChange={e => setSelectedProduct(e.target.value)} style={selectStyle}>
           <option value="">Select a product</option>
           {products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -132,28 +126,28 @@ function Sales({ refresh }) {
 
         <input
           type="number"
-          placeholder="Quantity to sell"
-          value={quantityToSell}
-          onChange={e => setQuantityToSell(e.target.value)}
+          placeholder="Quantity to add"
+          value={stockToAdd}
+          onChange={e => setStockToAdd(e.target.value)}
           style={inputStyle}
         />
 
-        <button type="submit" style={actionBtnStyle}>Record Sale</button>
+        <button type="submit" style={actionBtnStyle}>Add Stock</button>
       </form>
 
-      <h3 style={{...headingStyle, fontSize: "20px", marginBottom: "10px"}}>Sales Log</h3>
+      <h3 style={{...headingStyle, fontSize: "20px", marginBottom: "10px"}}>Stock Additions Log</h3>
       <table style={tableStyle}>
         <thead>
-          <tr><th style={thStyle}>Product</th><th style={thStyle}>Quantity Sold</th><th style={thStyle}>Date/Time</th></tr>
+          <tr><th style={thStyle}>Product</th><th style={thStyle}>Quantity Added</th><th style={thStyle}>Date/Time</th></tr>
         </thead>
         <tbody>
-          {salesLog.length === 0 ? (
-            <tr><td style={tdStyle} colSpan="3">No sales recorded yet.</td></tr>
-          ) : salesLog.map(sale => (
-            <tr key={sale.id}>
-              <td style={tdStyle}>{sale.productName}</td>
-              <td style={tdStyle}>{sale.quantity}</td>
-              <td style={tdStyle}>{new Date(sale.date).toLocaleString()}</td>
+          {stockLog.length === 0 ? (
+            <tr><td style={tdStyle} colSpan="3">No stock added yet.</td></tr>
+          ) : stockLog.map(log => (
+            <tr key={log.id}>
+              <td style={tdStyle}>{log.productName}</td>
+              <td style={tdStyle}>{log.quantity}</td>
+              <td style={tdStyle}>{new Date(log.date).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>
@@ -162,4 +156,4 @@ function Sales({ refresh }) {
   );
 }
 
-export default Sales;
+export default Inventory;

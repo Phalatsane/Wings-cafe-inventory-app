@@ -3,12 +3,12 @@ import '../styles/Dashboard.css';
 
 function Dashboard({ data }) {
   const products = data.products || [];
-  const transactions = data.transactions || []; // renamed from sales
+  const sales = data.sales || [];
 
   // Metrics
   const totalProducts = products.length;
   const lowStock = products.filter(p => p.quantity < 10).length;
-  const totalSalesCount = transactions.length;
+  const totalSalesCount = sales.length;
 
   // Get product price by ID
   const getProductPrice = (productId) => {
@@ -17,8 +17,8 @@ function Dashboard({ data }) {
   };
 
   // Total revenue
-  const totalRevenue = transactions.reduce(
-    (sum, t) => sum + (t.quantity * (t.price || getProductPrice(t.productId))),
+  const totalRevenue = sales.reduce(
+    (sum, s) => sum + (s.quantity * (s.price || getProductPrice(s.productId))),
     0
   );
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-// Updated backend URL to deployed Render backend
-const backendURL = "https://wings-cafe-inventory-app-46.onrender.com";
+const backendURL = "http://localhost:5000";
 const LOW_STOCK_THRESHOLD = 10; // you can adjust this
 
 function Reporting() {
@@ -20,8 +19,8 @@ function Reporting() {
       const resSales = await fetch(`${backendURL}/sales`);
       const salesData = await resSales.json();
 
-      setProducts(productsData);
-      setTransactions(Array.isArray(salesData) ? salesData : (salesData.transactions || []));
+  setProducts(productsData);
+  setTransactions(Array.isArray(salesData) ? salesData : (salesData.transactions || []));
     } catch (err) {
       console.error("Failed to fetch reporting data:", err);
     }
@@ -56,6 +55,8 @@ function Reporting() {
   const totalSalesCount = transactions.length;
   const totalRevenue = transactions.reduce((sum, t) => sum + t.quantity * getProductPrice(t.productId), 0);
 
+  // Inline styles for a modern, clean look
+  // Girly color palette: pinks, purples, soft pastels
   const containerStyle = {
     padding: "32px 16px",
     fontFamily: "'Segoe UI', Arial, sans-serif",

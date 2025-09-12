@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-const backendURL = "http://localhost:5000";
+// Updated backend URL to deployed Render backend
+const backendURL = "https://wings-cafe-inventory-app-46.onrender.com";
 
 function Inventory({ refresh }) {
   const [products, setProducts] = useState([]);
@@ -38,8 +39,6 @@ function Inventory({ refresh }) {
     if (refresh) refresh();
   };
 
-  // Inline styles for a modern, clean look
-  // Girly color palette: pinks, purples, soft pastels
   const containerStyle = {
     padding: "32px 16px",
     fontFamily: "'Segoe UI', Arial, sans-serif",

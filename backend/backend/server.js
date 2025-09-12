@@ -4,7 +4,18 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-app.use(cors());
+
+// Replace this with your frontend URL
+const FRONTEND_URL = "https://wings-cafe-frontend-9ov6zskn3-phalatsane-s-projects.vercel.app";
+
+// CORS setup
+app.use(cors({
+  origin: FRONTEND_URL,
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
+}));
+app.options("*", cors()); // handle preflight requests
+
 app.use(express.json());
 
 const dbPath = path.join(__dirname, 'db.json');
@@ -16,7 +27,6 @@ const readDB = () => {
   if (!data.transactions) data.transactions = [];
   return data;
 };
-
 const writeDB = (data) => fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 
 // --- API DATA SUMMARY ---
@@ -26,10 +36,7 @@ app.get('/api/data', (req, res) => {
     const product = data.products.find(p => p.id === t.productId);
     return { ...t, productName: product ? product.name : "Unknown", price: product ? product.price : 0 };
   });
-  res.json({
-    products: data.products,
-    sales
-  });
+  res.json({ products: data.products, sales });
 });
 
 // --- DELETE PRODUCT ---
@@ -37,7 +44,6 @@ app.delete('/products/:id', (req, res) => {
   const data = readDB();
   const productIndex = data.products.findIndex(p => p.id === req.params.id);
   if (productIndex === -1) return res.status(404).json({ error: 'Product not found' });
-
   data.products.splice(productIndex, 1);
   writeDB(data);
   res.json({ message: 'Product deleted' });
@@ -70,7 +76,6 @@ app.patch('/products/:id/add-stock', (req, res) => {
 
   product.quantity += quantity;
 
-  if (!Array.isArray(data.stockTransactions)) data.stockTransactions = [];
   const stockTransaction = {
     id: Date.now(),
     productId: product.id,
@@ -103,7 +108,6 @@ app.post('/sales', (req, res) => {
 
   product.quantity -= Number(quantity);
 
-  if (!data.transactions) data.transactions = [];
   const sale = {
     id: Date.now(),
     productId,
@@ -126,6 +130,4 @@ app.get('/sales', (req, res) => {
   res.json(result);
 });
 
-// --- Start server ---
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+app.listen(5000, () => console.log('Backend running on http://localhost:5000'));
