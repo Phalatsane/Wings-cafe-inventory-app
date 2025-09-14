@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000; // Use Render's dynamic port
 
 app.use(cors());
 app.use(express.json());
@@ -13,7 +13,11 @@ const dbPath = path.join(__dirname, 'db.json');
 
 // --- Helper functions ---
 const readDB = async () => {
-  const data = await fs.readJson(dbPath);
+  const data = await fs.readJson(dbPath).catch(() => ({
+    products: [],
+    transactions: [],
+    stockTransactions: []
+  }));
   return {
     products: data.products || [],
     transactions: data.transactions || [],
@@ -80,8 +84,7 @@ app.patch('/products/:id/add-stock', async (req, res) => {
     if (!product) return res.status(404).json({ error: 'Product not found' });
 
     const quantity = Number(req.body.quantity);
-    if (isNaN(quantity) || quantity <= 0)
-      return res.status(400).json({ error: 'Invalid quantity' });
+    if (isNaN(quantity) || quantity <= 0) return res.status(400).json({ error: 'Invalid quantity' });
 
     product.quantity += quantity;
 
@@ -146,16 +149,13 @@ app.patch('/sales/:id', async (req, res) => {
   const sale = data.transactions.find(s => s.id === req.params.id);
   if (!sale) return res.status(404).json({ error: 'Sale not found' });
 
-  // Restore old product stock
   const oldProduct = data.products.find(p => p.id === sale.productId);
   if (oldProduct) oldProduct.quantity += sale.quantity;
 
-  // Update sale
   sale.quantity = Number(quantity);
   sale.productId = productId || sale.productId;
   sale.date = new Date().toISOString();
 
-  // Deduct new product stock
   const newProduct = data.products.find(p => p.id === sale.productId);
   if (!newProduct) return res.status(404).json({ error: 'Product not found' });
   if (newProduct.quantity < sale.quantity) return res.status(400).json({ error: 'Insufficient stock' });
