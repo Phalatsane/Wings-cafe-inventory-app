@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const backendURL = "http://localhost:5000";
+const backendURL = process.env.REACT_APP_API_URL;
 
 function Sales() {
   const [products, setProducts] = useState([]);

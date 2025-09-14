@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../styles/Inventory.css';
 
-const backendURL = "http://localhost:5000";
+const backendURL = process.env.REACT_APP_API_URL;
 
 function Inventory() {
   const [products, setProducts] = useState([]);

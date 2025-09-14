@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Dashboard.css";
 
-const backendURL = "http://localhost:5000";
+const backendURL = process.env.REACT_APP_API_URL;
 
 function Dashboard() {
   const [products, setProducts] = useState([]);
